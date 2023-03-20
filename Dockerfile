@@ -1,20 +1,26 @@
-# pull the base image
-FROM node:alpine
+# Use an official Node.js runtime as a parent image
+FROM node:14-alpine
 
-# set the working direction
+# Set the working directory to /app
 WORKDIR /app
 
-# add app
-COPY . ./
+# Copy the package.json and package-lock.json files to the container
+COPY package*.json ./
 
-# install app dependencies
-COPY package.json ./
+# Install the dependencies
+RUN npm install --silent
 
-RUN npm install --only=prod
+# Copy the rest of the application files to the container
+COPY . .
 
+# Build the application
+RUN npm run build
+
+# Set the environment variable
 ENV NODE_ENV production
 
-EXPOSE 5000
+# Expose port 3000 for the application
+EXPOSE 3000
 
-# start app
-CMD ["npm", "run", "start"]
+# Start the application
+CMD ["npm", "start"]
