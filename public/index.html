@@ -8,6 +8,11 @@
   <title>Extension with custom response - Watson Assistant web chat toolkit</title>
 
   <style>
+    body, html
+            {
+                margin: 0; padding: 0; height: 100%; overflow: hidden;
+            }
+
     #WACContainer.WACContainer .IBMChat-message-text {
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       border-radius: 8px;
@@ -53,6 +58,14 @@
   </style>
 </head>
 <body>
+  <iframe id="inlineFrameExample"
+    title="Inline Frame Example"
+    position="absolute"
+    height="100%"
+    width="100%"
+    src="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=overview">
+  </iframe>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
   
   <script type="module" src="">
