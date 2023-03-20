@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install the dependencies
 RUN npm install --silent
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
 
 # Copy the rest of the application files to the container
 COPY . .
