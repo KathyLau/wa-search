@@ -58,15 +58,8 @@
   </style>
 </head>
 <body>
-  <iframe id="inlineFrameExample"
-    title="Inline Frame Example"
-    position="absolute"
-    height="100%"
-    width="100%"
-    src="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=overview">
-  </iframe>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+
   
   <script type="module" src="">
     import DiscoveryV1 from 'ibm-watson/discovery/v1';
@@ -79,8 +72,8 @@
  url: 'https://api.us-south.discovery.watson.cloud.ibm.com/instances/147e2457-d3b5-4aca-856e-3bee534a2dba',
  });
  const queryParams = {
-   projectId: params.project_id,
-   collectionId: params.collection_id,
+  projectId: 'cbd4d296-02ac-4b18-87b9-f7cecc258849',
+  collectionId:  ['283ced76-a25e-e313-0000-0186a2a85d5d'],
    naturalLanguageQuery: query,
    passages: true,
    count: 3,
@@ -89,6 +82,7 @@
  
  discovery.query(queryParams)
   .then(response => {
+    console.log("RESULTS");
     console.log(response.result);
   })
   .catch(err => {
@@ -98,30 +92,6 @@
    </script>
 
   <script>
-    // Initialize Prism.js
-    Prism.highlightAll();
-
-
-    function featuresOutputHandler(event, instance) {
-      const { element, fullMessage } = event.data;
-
-      element.innerHTML = `
-      
-      <div class="IBMChat-message-text">
-        <div class="IBMChat-message-text-title">
-          Watson Machine Learning</div>
-        <p>is a comprehensive platform for building and deploying machine learning models. Here are some key features:</p>
-        <ol>
-          <li>Model building and deployment: Provides tools for building and deploying machine learning models. This includes tools for data preparation, feature engineering, model selection, and hyperparameter tuning.</li>
-          <li>Automation and collaboration: The platform also provides automation and collaboration features that make it easy for teams to work together on machine learning projects. This includes tools for version control, deployment automation, and model monitoring.</li>
-          <li>Pre-built models: The platform includes a number of pre-built models that can be used for common machine learning tasks such as image recognition, natural language processing, and anomaly detection.</li>
-          <li>Item 4</li>
-          <li>Item 5</li>
-        </ol>
-
-      </div>
-      `;
-    }
 
     function configurationOutputHandler(event) {
       const { element, fullMessage } = event.data;
@@ -170,10 +140,11 @@
     function codeOutputHandler(event) {
       //console.log("code output");
       const { element, fullMessage } = event.data;
+      console.log(fullMessage);
       const codeRegex = /(?:\bconst|let|var|export|set)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=|`(.+?)`/;
       const ocRegex = new RegExp("\\boc\\b\\s+\\w+\\s+\\w+");
-      formatted = (fullMessage.context.skills["main skill"].user_defined.passage);//.replace(/<\/?em>/g, "");
-    
+      //formatted = (fullMessage.context.skills["main skill"].user_defined.passage);//.replace(/<\/?em>/g, "");
+      formatted = fullMessage.output.generic[0].primary_results[0].highlight.body[0];
       element.innerHTML = `
         <div class="IBMChat-message-text">
           <div class="IBMChat-message-text__ResultInput">
@@ -194,17 +165,15 @@
       instance.on({
         type: 'customResponse',
         handler: (event, instance) => {
-          console.log(event.data.message.user_defined);
+          //console.log(event.data.message.user_defined);
           // The "user_defined_type" property is just an example; it is not required. You can use any other property or
           // condition you want here. This makes it easier to handle different response types if you have more than
           // one custom response type.
-          if (event.data.message.user_defined && event.data.message.user_defined.user_defined_type === 'features_input') {
-            featuresOutputHandler(event, instance);
-          } else if (event.data.message.user_defined && event.data.message.user_defined.user_defined_type === 'configure_input') {
+          /*if (event.data.message.user_defined && event.data.message.user_defined.user_defined_type === 'configure_input') {
             configurationOutputHandler(event, instance);
           } else if (event.data.message.user_defined && event.data.message.user_defined.user_defined_type === 'code_output') {
             codeOutputHandler(event, instance);
-          }
+          }*/
         },
       });
       instance.render();
